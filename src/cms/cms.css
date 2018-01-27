@@ -1,0 +1,18 @@
+.nc-githubAuthenticationPage-logo {
+  background-image: url(../img/logo.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.nc-githubAuthenticationPage-logo svg {
+  display: none;
+}
+
+.nc-githubAuthenticationPage-button {
+  font-size: 0;
+}
+
+.nc-githubAuthenticationPage-button::after {
+  font-size: 14px;
+  content: 'Login';
+}

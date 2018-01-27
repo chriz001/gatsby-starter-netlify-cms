@@ -1,39 +1,20 @@
-import React from 'react';
-import graphql from 'graphql';
-import Helmet from 'react-helmet';
-import Content, { HTMLContent } from '../components/Content';
-
-export const BlogPostTemplate = ({
-  content, contentComponent, description, title, helmet,
-}) => {
-  const PostContent = contentComponent || Content;
-
-  return (
-    <section className="section">
-      { helmet || ''}
-      <div className="container content">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <h1 className="title is-size-2 has-text-weight-bold is-bold-light">{title}</h1>
-            <p>{description}</p>
-            <PostContent content={content} />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+import React from "react";
+import graphql from "graphql";
+import Helmet from "react-helmet";
+import MarkdownContent from "../components/markdown";
+import { Container } from "../components/layout";
+import { H1 } from "../components/typography";
 
 export default ({ data }) => {
   const { markdownRemark: post } = data;
 
-  return (<BlogPostTemplate
-    content={post.html}
-    contentComponent={HTMLContent}
-    description={post.frontmatter.description}
-    helmet={<Helmet title={`Blog | ${post.frontmatter.title}`} />}
-    title={post.frontmatter.title}
-  />);
+  return (
+    <Container>
+      <Helmet title={`Blog | ${post.frontmatter.title}`} />
+      <H1>{post.frontmatter.title}</H1>
+      <MarkdownContent content={post.html} />
+    </Container>
+  );
 };
 
 export const pageQuery = graphql`

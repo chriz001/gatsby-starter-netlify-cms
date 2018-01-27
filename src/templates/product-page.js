@@ -1,11 +1,21 @@
-import React from 'react';
-import graphql from 'graphql';
-import Features from '../components/Features';
-import Testimonials from '../components/Testimonials';
-import Pricing from '../components/Pricing';
+import React from "react";
+import graphql from "graphql";
+import Features from "../components/Features";
+import Testimonials from "../components/Testimonials";
+import Pricing from "../components/Pricing";
+
+import Img from "gatsby-image";
 
 export const ProductPageTemplate = ({
-  image, title, heading, description, intro, main, testimonials, fullImage, pricing,
+  image,
+  title,
+  heading,
+  description,
+  intro,
+  main,
+  testimonials,
+  fullImage,
+  pricing
 }) => (
   <section className="section section--gradient">
     <div className="container">
@@ -13,17 +23,15 @@ export const ProductPageTemplate = ({
         <div className="columns">
           <div className="column is-10 is-offset-1">
             <div className="content">
-              <div
-                className="full-width-image-container margin-top-0"
-                style={{ backgroundImage: `url(${image})` }}
-              >
+              <Img resolutions={image.childImageSharp.resolutions} />
+              <div className="full-width-image-container margin-top-0">
                 <h2
                   className="has-text-weight-bold is-size-1"
                   style={{
-                    boxShadow: '0.5rem 0 0 #f40, -0.5rem 0 0 #f40',
-                    backgroundColor: '#f40',
-                    color: 'white',
-                    padding: '1rem',
+                    boxShadow: "0.5rem 0 0 #f40, -0.5rem 0 0 #f40",
+                    backgroundColor: "#f40",
+                    color: "white",
+                    padding: "1rem"
                   }}
                 >
                   {title}
@@ -31,14 +39,18 @@ export const ProductPageTemplate = ({
               </div>
               <div className="columns">
                 <div className="column is-7">
-                  <h3 className="has-text-weight-semibold is-size-2">{heading}</h3>
+                  <h3 className="has-text-weight-semibold is-size-2">
+                    {heading}
+                  </h3>
                   <p>{description}</p>
                 </div>
               </div>
               <Features gridItems={intro.blurbs} />
               <div className="columns">
                 <div className="column is-7">
-                  <h3 className="has-text-weight-semibold is-size-3">{main.heading}</h3>
+                  <h3 className="has-text-weight-semibold is-size-3">
+                    {main.heading}
+                  </h3>
                   <p>{main.description}</p>
                 </div>
               </div>
@@ -47,17 +59,17 @@ export const ProductPageTemplate = ({
                   <div className="tile">
                     <div className="tile is-parent is-vertical">
                       <article className="tile is-child">
-                        <img
-                          style={{ borderRadius: '5px' }}
-                          src={main.image1.image}
-                          alt={main.image1.alt}
+                        <Img
+                          resolutions={
+                            main.image1.image.childImageSharp.resolutions
+                          }
                         />
                       </article>
                     </div>
                     <div className="tile is-parent">
                       <article className="tile is-child">
                         <img
-                          style={{ borderRadius: '5px' }}
+                          style={{ borderRadius: "5px" }}
                           src={main.image2.image}
                           alt={main.image2.alt}
                         />
@@ -67,7 +79,7 @@ export const ProductPageTemplate = ({
                   <div className="tile is-parent">
                     <article className="tile is-child">
                       <img
-                        style={{ borderRadius: '5px' }}
+                        style={{ borderRadius: "5px" }}
                         src={main.image3.image}
                         alt={main.image3.alt}
                       />
@@ -80,7 +92,9 @@ export const ProductPageTemplate = ({
                 className="full-width-image-container"
                 style={{ backgroundImage: `url(${fullImage})` }}
               />
-              <h2 className="has-text-weight-semibold is-size-2">{pricing.heading}</h2>
+              <h2 className="has-text-weight-semibold is-size-2">
+                {pricing.heading}
+              </h2>
               <p className="is-size-5">{pricing.description}</p>
               <Pricing data={pricing.plans} />
             </div>
@@ -93,6 +107,7 @@ export const ProductPageTemplate = ({
 
 export default ({ data }) => {
   const { frontmatter } = data.markdownRemark;
+  console.log(data.markdownRemark);
 
   return (
     <ProductPageTemplate
@@ -115,7 +130,13 @@ export const productPageQuery = graphql`
       frontmatter {
         title
         path
-        image
+        image {
+          childImageSharp {
+            resolutions(width: 800) {
+              ...GatsbyImageSharpResolutions
+            }
+          }
+        }
         heading
         description
         intro {
@@ -131,7 +152,13 @@ export const productPageQuery = graphql`
           description
           image1 {
             alt
-            image
+            image {
+              childImageSharp {
+                resolutions(width: 500) {
+                  ...GatsbyImageSharpResolutions
+                }
+              }
+            }
           }
           image2 {
             alt
