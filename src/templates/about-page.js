@@ -1,16 +1,27 @@
 import React from "react";
 import graphql from "graphql";
-import { HTMLContent } from "../components/Content";
+import Content, { HTMLContent } from "../components/Content";
 import { Container } from "../components/layout";
+
+export const AboutPageTemplate = ({ title, content, contentComponent }) => {
+  const PageContent = contentComponent || Content;
+  return (
+    <Container>
+      <h2>{title}</h2>
+      <PageContent className="content" content={content} />
+    </Container>
+  );
+};
 
 export default ({ data }) => {
   const { markdownRemark: post } = data;
 
   return (
-    <Container>
-      <h2>{post.frontmatter.title}</h2>
-      <HTMLContent className="content" content={post.html} />
-    </Container>
+    <AboutPageTemplate
+      contentComponent={HTMLContent}
+      title={post.frontmatter.title}
+      content={post.html}
+    />
   );
 };
 

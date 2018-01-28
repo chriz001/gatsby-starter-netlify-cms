@@ -17,7 +17,7 @@ module.exports = {
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        path: `${__dirname}/static/uploads`,
+        path: `${__dirname}/static`,
         name: "uploads"
       }
     },
@@ -48,6 +48,7 @@ module.exports = {
       options: {}
     },
     */
+
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {

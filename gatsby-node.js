@@ -52,8 +52,7 @@ exports.onCreateNode = ({ node, getNode, getNodes, boundActionCreators }) => {
       if (isPhotoUrl(value)) {
         const mediaNodeID = getMediaItemID(
           media.find(m => {
-            console.log(value);
-            return m.relativePath === value; //.replace(/^.*[\\/]/, "");
+            return m.absolutePath.endsWith(value);
           })
         );
         return {

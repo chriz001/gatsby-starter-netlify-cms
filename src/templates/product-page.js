@@ -1,10 +1,7 @@
 import React from "react";
 import graphql from "graphql";
-import Features from "../components/Features";
-import Testimonials from "../components/Testimonials";
-import Pricing from "../components/Pricing";
-
-import Img from "gatsby-image";
+import Image from "../components/image";
+import { Container } from "../components/layout";
 
 export const ProductPageTemplate = ({
   image,
@@ -17,97 +14,44 @@ export const ProductPageTemplate = ({
   fullImage,
   pricing
 }) => (
-  <section className="section section--gradient">
-    <div className="container">
-      <div className="section">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <div className="content">
-              <Img resolutions={image.childImageSharp.resolutions} />
-              <div className="full-width-image-container margin-top-0">
-                <h2
-                  className="has-text-weight-bold is-size-1"
-                  style={{
-                    boxShadow: "0.5rem 0 0 #f40, -0.5rem 0 0 #f40",
-                    backgroundColor: "#f40",
-                    color: "white",
-                    padding: "1rem"
-                  }}
-                >
-                  {title}
-                </h2>
-              </div>
-              <div className="columns">
-                <div className="column is-7">
-                  <h3 className="has-text-weight-semibold is-size-2">
-                    {heading}
-                  </h3>
-                  <p>{description}</p>
-                </div>
-              </div>
-              <Features gridItems={intro.blurbs} />
-              <div className="columns">
-                <div className="column is-7">
-                  <h3 className="has-text-weight-semibold is-size-3">
-                    {main.heading}
-                  </h3>
-                  <p>{main.description}</p>
-                </div>
-              </div>
-              <div className="tile is-ancestor">
-                <div className="tile is-vertical">
-                  <div className="tile">
-                    <div className="tile is-parent is-vertical">
-                      <article className="tile is-child">
-                        <Img
-                          resolutions={
-                            main.image1.image.childImageSharp.resolutions
-                          }
-                        />
-                      </article>
-                    </div>
-                    <div className="tile is-parent">
-                      <article className="tile is-child">
-                        <img
-                          style={{ borderRadius: "5px" }}
-                          src={main.image2.image}
-                          alt={main.image2.alt}
-                        />
-                      </article>
-                    </div>
-                  </div>
-                  <div className="tile is-parent">
-                    <article className="tile is-child">
-                      <img
-                        style={{ borderRadius: "5px" }}
-                        src={main.image3.image}
-                        alt={main.image3.alt}
-                      />
-                    </article>
-                  </div>
-                </div>
-              </div>
-              <Testimonials testimonials={testimonials} />
-              <div
-                className="full-width-image-container"
-                style={{ backgroundImage: `url(${fullImage})` }}
-              />
-              <h2 className="has-text-weight-semibold is-size-2">
-                {pricing.heading}
-              </h2>
-              <p className="is-size-5">{pricing.description}</p>
-              <Pricing data={pricing.plans} />
-            </div>
-          </div>
-        </div>
+  <Container>
+    <Image src={image} />
+    <h2>{title}</h2>
+    <h3>{heading}</h3>
+    <p>{description}</p>
+    {intro.blurbs.map(item => (
+      <div
+        key={item.image.childImageSharp.resolutions.src}
+        className="column is-6"
+      >
+        <section className="section">
+          <p className="has-text-centered">
+            <img alt="" src={item.image.childImageSharp.resolutions.src} />
+          </p>
+          <p>{item.text}</p>
+        </section>
       </div>
-    </div>
-  </section>
+    ))}
+    <h3 className="has-text-weight-semibold is-size-3">{main.heading}</h3>
+    <p>{main.description}</p>
+    <Image src={main.image1.image} alt={main.image1.alt} />
+    <Image src={main.image2.image} alt={main.image2.alt} />
+    <Image src={main.image3.image} alt={main.image3.alt} />
+    {testimonials.map((testimonial, i) => (
+      <article key={i} className="message">
+        <div className="message-body">
+          {testimonial.quote}
+          <br />
+          <cite> – {testimonial.author}</cite>
+        </div>
+      </article>
+    ))}
+    <Image src={fullImage} />
+  </Container>
 );
 
 export default ({ data }) => {
   const { frontmatter } = data.markdownRemark;
-  console.log(data.markdownRemark);
 
   return (
     <ProductPageTemplate
@@ -141,7 +85,13 @@ export const productPageQuery = graphql`
         description
         intro {
           blurbs {
-            image
+            image {
+              childImageSharp {
+                resolutions(width: 240) {
+                  ...GatsbyImageSharpResolutions
+                }
+              }
+            }
             text
           }
           heading
@@ -154,7 +104,7 @@ export const productPageQuery = graphql`
             alt
             image {
               childImageSharp {
-                resolutions(width: 500) {
+                resolutions(width: 240) {
                   ...GatsbyImageSharpResolutions
                 }
               }
@@ -162,26 +112,34 @@ export const productPageQuery = graphql`
           }
           image2 {
             alt
-            image
+            image {
+              childImageSharp {
+                resolutions(width: 240) {
+                  ...GatsbyImageSharpResolutions
+                }
+              }
+            }
           }
           image3 {
             alt
-            image
+            image {
+              childImageSharp {
+                resolutions(width: 240) {
+                  ...GatsbyImageSharpResolutions
+                }
+              }
+            }
           }
         }
         testimonials {
           author
           quote
         }
-        full_image
-        pricing {
-          heading
-          description
-          plans {
-            description
-            items
-            plan
-            price
+        full_image {
+          childImageSharp {
+            resize(width: 200, quality: 80) {
+              src
+            }
           }
         }
       }
