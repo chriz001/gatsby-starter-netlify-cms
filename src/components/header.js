@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "gatsby-link";
+import LogoImg from "../img/logo.svg";
+import Image from "../components/image";
 
 const Header = styled.div`
   display: flex;
@@ -14,7 +16,7 @@ const Logo = styled(Link)`
   text-decoration: none;
   border-bottom: 0;
   font-weight: 500;
-  padding: 8px;
+  line-height: 0;
 `;
 
 const Nav = styled.nav`
@@ -34,7 +36,9 @@ const NavItem = styled(Link)`
 
 export default () => (
   <Header>
-    <Logo to="/">Logo</Logo>
+    <Logo to="/">
+      <Image src={LogoImg} />
+    </Logo>
     <Nav>
       <NavItem to="/">Home</NavItem>
       <NavItem to="/about/">About</NavItem>
