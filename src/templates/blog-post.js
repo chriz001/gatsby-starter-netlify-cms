@@ -1,8 +1,7 @@
 import React from "react";
 import graphql from "graphql";
 import Helmet from "react-helmet";
-import Content from "../components/Content";
-import MarkdownContent from "../components/markdown";
+import Content, { HTMLContent } from "../components/Content";
 import { Container } from "../components/layout";
 import { H1 } from "../components/typography";
 
@@ -31,7 +30,7 @@ export default ({ data }) => {
   return (
     <BlogPostTemplate
       content={post.html}
-      contentComponent={MarkdownContent}
+      contentComponent={HTMLContent}
       description={post.frontmatter.description}
       helmet={<Helmet title={`Blog | ${post.frontmatter.title}`} />}
       title={post.frontmatter.title}

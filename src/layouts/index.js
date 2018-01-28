@@ -5,13 +5,14 @@ import styled, { ThemeProvider, injectGlobal } from "styled-components";
 import Footer from "../components/footer";
 import Header from "../components/header";
 
-import WebFont from "webfontloader";
-
-WebFont.load({
-  google: {
-    families: ["Source Sans Pro"]
-  }
-});
+if (typeof window !== "undefined") {
+  var WebFont = require("webfontloader");
+  WebFont.load({
+    google: {
+      families: ["Source Sans Pro"]
+    }
+  });
+}
 
 const theme = {
   fontWeight: [300, 400, 500, 600],

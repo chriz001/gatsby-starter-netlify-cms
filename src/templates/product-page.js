@@ -19,27 +19,20 @@ export const ProductPageTemplate = ({
     <h2>{title}</h2>
     <h3>{heading}</h3>
     <p>{description}</p>
-    {intro.blurbs.map(item => (
-      <div
-        key={item.image.childImageSharp.resolutions.src}
-        className="column is-6"
-      >
-        <section className="section">
-          <p className="has-text-centered">
-            <img alt="" src={item.image.childImageSharp.resolutions.src} />
-          </p>
-          <p>{item.text}</p>
-        </section>
+    {intro.blurbs.map((item, i) => (
+      <div key={i}>
+        <Image src={item.image} />
+        <p>{item.text}</p>
       </div>
     ))}
-    <h3 className="has-text-weight-semibold is-size-3">{main.heading}</h3>
+    <h3>{main.heading}</h3>
     <p>{main.description}</p>
     <Image src={main.image1.image} alt={main.image1.alt} />
     <Image src={main.image2.image} alt={main.image2.alt} />
     <Image src={main.image3.image} alt={main.image3.alt} />
     {testimonials.map((testimonial, i) => (
-      <article key={i} className="message">
-        <div className="message-body">
+      <article key={i}>
+        <div>
           {testimonial.quote}
           <br />
           <cite> – {testimonial.author}</cite>
@@ -86,11 +79,7 @@ export const productPageQuery = graphql`
         intro {
           blurbs {
             image {
-              childImageSharp {
-                resolutions(width: 240) {
-                  ...GatsbyImageSharpResolutions
-                }
-              }
+              relativePath
             }
             text
           }
